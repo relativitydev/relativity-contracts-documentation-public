@@ -32,8 +32,7 @@ You'd set the path parameters as follows:
 ## Client Code Example
 To use the hOCR Service, send requests by making calls with the required HTTP methods.
 
-`TODO` Put the link here once we have it.
-You can download a .NET example project [here]().
+You can download a .NET example project [here](https://raw.githubusercontent.com/relativitydev/relativity-contracts-documentation-public/main/Examples/OffsetsAndHOcrApis.zip).
 
 ## Read hOCR Data
 To get hOCR data for a document page, send a GET request with a URL in this format:

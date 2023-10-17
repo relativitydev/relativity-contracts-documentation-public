@@ -27,8 +27,7 @@ You'd set the path parameters as follows:
 ## Client Code Example
 To use the Contracts Offsets Service, send requests by making calls with the required HTTP methods.
 
-`TODO` Put the link here once we have it.
-You can download a .NET example project [here]().
+You can download a .NET example project [here](https://raw.githubusercontent.com/relativitydev/relativity-contracts-documentation-public/main/Examples/OffsetsAndHOcrApis.zip).
 
 ## Create Offsets
 To create one or more offsets, send a POST request with a URL in this format:
