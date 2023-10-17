@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ContractsOffsetsService.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="contracts-offsets-service-rest">Contracts Offsets Service (REST)</h1>
+<p>The Relativity Contracts application uses offset data to link field values to text in a contract document. Offsets can be created through the Contracts Viewer using the Send To Field feature, but they can also be created and managed through the Contracts Offsets Service REST API.</p>
+<p>The Contracts Offsets Service exposes CRUD endpoints that you can use to programmatically manipulate offsets in your Relativity environment.</p>
+<p>Some use cases for the Contracts Offsets Service include:</p>
+<ul>
+<li>Creating offsets based on a custom model so that they can be viewed in the Contracts Viewer and possibly edited by reviewers.</li>
+<li>Extracting reviewer-edited offsets from contracts to train a custom model.</li>
+</ul>
+<h2 id="guidelines-for-the-contracts-offsets-service">Guidelines for the Contracts Offsets Service</h2>
+<p>What follows are general guidelines for working with this service.</p>
+<h3 id="urls">URLs</h3>
+<p>The URLs for the Contracts Offsets Service's REST endpoints contain path parameters that you need to set before making a call:</p>
+<ul>
+<li>Set the <strong>{versionNumber}</strong> placeholder to the version of the REST API that you want to use, using the format of lowercase <em>v</em> followed by the <em>version number</em> (e.g. <em>v1</em> or <em>v2</em>).</li>
+<li>Set the <strong>{workspaceId}</strong> and <strong>{documentId}</strong> path parameters to the Artifact ID of the given entity. For example, you'd set <strong>{workspaceId}</strong> to the Artifact ID of the Workspace.</li>
+</ul>
+<p>For example, you can use the following URL to retrieve the offsets associated with a contract document:</p>
+<pre class="hljs"><code><div>&lt;host&gt;/Relativity.Rest/API/contracts/{versionNumber}/offsets/{workspaceId}/document/{documentId}
+</div></code></pre>
+<p>You'd set the path parameters as follows:</p>
+<ul>
+<li><strong>{versionNumber}</strong> to the version of hte API, such as <strong>v1</strong>.</li>
+<li><strong>{workspaceId}</strong> to the Artifact ID of the Workspace that contains the document.</li>
+<li><strong>{documentId}</strong> to the Artifact ID of the document you want to retrieve offsets for.</li>
+</ul>
+<h2 id="client-code-example">Client Code Example</h2>
+<p>To use the Contracts Offsets Service, send requests by making calls with the required HTTP methods.</p>
+<p><code>TODO</code> Put the link here once we have it.
+You can download a .NET example project <a href="">here</a>.</p>
+<h2 id="create-offsets">Create Offsets</h2>
+<p>To create one or more offsets, send a POST request with a URL in this format:</p>
+<pre class="hljs"><code><div>&lt;host&gt;/Relativity.Rest/API/contracts/{versionNumber}/offsets/{workspaceId}/document/{documentId}
+</div></code></pre>
+<details>
+<summary>View field descriptions for a request</summary>
+<p>The body of the request must contain an <strong>Offsets</strong> field, which is an array of objects defining the offsets you want to create.</p>
+<p>An offset contains the following fields:</p>
+<ul>
+<li><strong>Id</strong> - (Optional) An ID uniquely identifying the offset. To create a new offset, this should be omitted or set to <code>0</code> or <code>null</code>.
+<ul>
+<li><strong>IMPORTANT:</strong> If you are intending to create a new offset, this should NEVER be set to anything other than <code>0</code> or <code>null</code>. Creating new offsets with specific IDs is not supported, and attempting to do so will result in either an existing offset being updated (if one with the <em>Id</em> already exists) or a new offset being created with an <em>Id</em> equal to the largest existing offset <em>Id</em>+1, NOT the <em>Id</em> specified.</li>
+</ul>
+</li>
+<li><strong>DocumentId</strong> - The Artifact ID of the document that the offset should be associated with. This must match the document ID in the URL.</li>
+<li><strong>FieldId</strong> - The Artifact ID of the field the offset is associated with.</li>
+<li><strong>AssociatedArtifactId</strong> - If the offset is associated with a multi-object field, the Artifact ID of an object to be selected. Otherwise, this should contain the same value as the <em>DocumentId</em> field.
+<ul>
+<li>To select more than one object, create multiple offsets with the same document ID and field ID, setting the <em>AssociatedArtifactId</em> field on each offset to the Artifact ID of the object you want to select.</li>
+</ul>
+</li>
+<li><strong>ChoiceId</strong> - (Optional) The Artifact ID of a choice to associate the offset with. This can be used to correlate different offsets that share the same document, field, and choice IDs.</li>
+<li><strong>Offset</strong> - The position in the document where the offset's text starts, given in number of characters since the beginning of the document.</li>
+<li><strong>Length</strong> - The text length of the offset, given in number of characters.</li>
+<li><strong>Height</strong> - (Optional) The height of the offset's text as a percentage of the document image's height. The value can be either <code>null</code> or a positive decimal number.</li>
+<li><strong>Width</strong> - (Optional) The width of the offset's text as a percentage of the document image's width. The value can be either <code>null</code> or a positive decimal number.</li>
+<li><strong>Left</strong> - (Optional) How far from the left edge of the document image the start of the offset's text is as a percentage of the document image's width. The value can be either <code>null</code> or a a non-negative decimal number.</li>
+<li><strong>Top</strong> - (Optional) How far from the top edge of the document image the start of the offset's text is as a percentage of the document image's height. The value can be either <code>null</code> or a non-negative decimal number.</li>
+<li><strong>PageNumber</strong> - (Optional) The page number of the document where the offset's text is found. The value can be either <code>null</code> or a positive integer greater than or equal to 1.</li>
+</ul>
+<div style="background-color: #f0f7fb; border-left: solid 4px #3498db; overflow: hidden; padding: 0.6em; font-size: 1em; line-height: 1.5em; page-break-inside: avoid; color: #666666; font-weight: 400; font-family: proxima-nova, arial, sans-serif;">
+<b>Note:</b> The position and size of an offset's associated text can be defined one of two ways:
+<ol>
+    <li>By providing values for <b>Offset</b> and <b>Length</b>.</li>
+    <li>By providing values for <b>Height</b>, <b>Width</b>, <b>Left</b>, <b>Top</b>, and <b>PageNumber</b>.</li>
+</ol>
+If no value is provided for <b>Length</b>, values must be provided for <b>Height</b>, <b>Width</b>, <b>Left</b>, <b>Top</b>, and <b>PageNumber</b>.
+</div>
+</details>
+<details>
+<summary>View a sample JSON request</summary>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"Offsets"</span>: [
+        {
+            <span class="hljs-attr">"Id"</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">"DocumentId"</span>: <span class="hljs-number">1041445</span>,
+            <span class="hljs-attr">"FieldId"</span>: <span class="hljs-number">1042006</span>,
+            <span class="hljs-attr">"AssociatedArtifactId"</span>: <span class="hljs-number">1041445</span>,
+            <span class="hljs-attr">"ChoiceId"</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">"Offset"</span>: <span class="hljs-number">489</span>,
+            <span class="hljs-attr">"Length"</span>: <span class="hljs-number">211</span>,
+            <span class="hljs-attr">"Height"</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">"Width"</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">"Left"</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">"Top"</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">"PageNumber"</span>: <span class="hljs-literal">null</span>
+        },
+        {
+            <span class="hljs-attr">"DocumentId"</span>: <span class="hljs-number">1041445</span>,
+            <span class="hljs-attr">"FieldId"</span>: <span class="hljs-number">1042012</span>,
+            <span class="hljs-attr">"AssociatedArtifactId"</span>: <span class="hljs-number">1041445</span>,
+            <span class="hljs-attr">"Offset"</span>: <span class="hljs-number">14</span>,
+            <span class="hljs-attr">"Length"</span>: <span class="hljs-number">104</span>,
+        }
+    ]
+}
+</div></code></pre>
+</details>
+<details>
+<summary>View field descriptions for a response</summary>
+<p>The body of the response contains an array of objects defining the offsets that were successfully created or updated (see <a href="#upsert-offsets">Upsert Offsets</a> for more info on why the create endpoint works this way).</p>
+<p>Each offset object in the response contains the following fields (fields marked with * will be omitted from an offset object if their value is <code>null</code>):</p>
+<ul>
+<li><strong>Id</strong> - An ID uniquely identifying the offset.</li>
+<li><strong>DocumentId</strong> - The Artifact ID of the document that the offset is associated with.</li>
+<li><strong>FieldId</strong> - The Artifact ID of the field the offset is associated with.</li>
+<li><strong>AssociatedArtifactId</strong> - If this field does not contain the same value as the <em>DocumentId</em> field, the offset is associated with a multi-object field and its value is the Artifact ID of a selected object. Otherwise, this contains the same value as the <em>DocumentId</em> field.
+<ul>
+<li>For more information on how this field behaves for multi-object fields, see its description in the section above about the request.</li>
+</ul>
+</li>
+<li><strong>ChoiceId</strong>* - The Artifact ID of the choice the offset is associated with. If not set, its value is <code>null</code>.
+<ul>
+<li>This can be used to correlate different offsets that share the same document, field, and choice IDs.</li>
+</ul>
+</li>
+<li><strong>Offset</strong> - The position where the offset's text starts in the document, given in number of characters since the beginning of the document.</li>
+<li><strong>Length</strong> - The text length of the offset, given in number of characters.</li>
+<li><strong>Height</strong>* - The height of the offset's text as a percentage of the document image's height.</li>
+<li><strong>Width</strong>* - The width of the offset's text as a percentage of the document image's width.</li>
+<li><strong>Left</strong>* - How far from the left edge of the document image the start of the offset's text is as a percentage of the document image's width.</li>
+<li><strong>Top</strong>* - How far from the top edge of the document image the start of the offset's text is as a percentage of the document image's height.</li>
+<li><strong>PageNumber</strong>* - The page number of the document where the offset's text is found. Page numbers start at 1.</li>
+</ul>
+</details>
+<details>
+<summary>View a sample JSON response</summary>
+<pre class="hljs"><code><div>[
+    {
+        <span class="hljs-attr">"Id"</span>: <span class="hljs-number">9</span>,
+        <span class="hljs-attr">"DocumentId"</span>: <span class="hljs-number">1041445</span>,
+        <span class="hljs-attr">"FieldId"</span>: <span class="hljs-number">1042006</span>,
+        <span class="hljs-attr">"AssociatedArtifactId"</span>: <span class="hljs-number">1041445</span>,
+        <span class="hljs-attr">"Offset"</span>: <span class="hljs-number">489</span>,
+        <span class="hljs-attr">"Length"</span>: <span class="hljs-number">211</span>
+    },
+    {
+        <span class="hljs-attr">"Id"</span>: <span class="hljs-number">10</span>,
+        <span class="hljs-attr">"DocumentId"</span>: <span class="hljs-number">1041445</span>,
+        <span class="hljs-attr">"FieldId"</span>: <span class="hljs-number">1042006</span>,
+        <span class="hljs-attr">"AssociatedArtifactId"</span>: <span class="hljs-number">1041445</span>,
+        <span class="hljs-attr">"Offset"</span>: <span class="hljs-number">14</span>,
+        <span class="hljs-attr">"Length"</span>: <span class="hljs-number">104</span>
+    }
+]
+</div></code></pre>
+</details>
+<h2 id="read-offsets">Read Offsets</h2>
+<p>To get the offsets associated with a particular document, send a GET request with a URL in the following format:</p>
+<pre class="hljs"><code><div>&lt;host&gt;/Relativity.Rest/API/contracts/{versionNumber}/offsets/{workspaceId}/document/{documentId}
+</div></code></pre>
+<p>The offset objects in the response for a read operation contain the same fields as those for a create response. See the field descriptions for the response in <a href="#create-offsets">Create Offsets</a>.</p>
+<h2 id="update-offsets">Update Offsets</h2>
+<p>To update one or more offsets, send a POST request with a URL in this format:</p>
+<pre class="hljs"><code><div>&lt;host&gt;/Relativity.Rest/API/contracts/{versionNumber}/offsets/{workspaceId}/document/{documentId}
+</div></code></pre>
+<details>
+<summary>View field descriptions for a request</summary>
+<p>The body of the request must contain an <strong>Offsets</strong> field, which is an array of objects defining the offsets you want to update and the state you want them to be in after the update.</p>
+<p>An offset contains the following fields:</p>
+<ul>
+<li><strong>Id</strong> - An integer ID uniquely identifying the offset.
+<ul>
+<li><strong>IMPORTANT:</strong> If no offset already exists with the specified <em>Id</em>, a new one will be created with an <em>Id</em> value equal to the largest existing offset <em>Id</em>+1, NOT the <em>Id</em> specified. If it's important to your use case that new offsets not be accidentally created this way, it's highly recommended you check which offsets already exist using the <a href="#read-offsets">read API</a> before attempting to update.</li>
+</ul>
+</li>
+<li><strong>DocumentId</strong> - The Artifact ID of the document that the offset should be associated with. This must match the document ID in the URL.</li>
+<li><strong>FieldId</strong> - The Artifact ID of the field the offset is associated with.</li>
+<li><strong>AssociatedArtifactId</strong> - If the offset is associated with a multi-object field, the Artifact ID of an object to be selected. Otherwise, this should contain the same value as the <em>DocumentId</em> field.
+<ul>
+<li>For more information on how this works, see the request <em>AssociatedArtifactId</em> field description for the <a href="#create-offsets">Create API</a>.</li>
+</ul>
+</li>
+<li><strong>ChoiceId</strong> - (Optional) The Artifact ID of a choice to associate the offset with. This can be used to correlate different offsets that share the same document, field, and choice IDs.</li>
+<li><strong>Offset</strong> - The position in the document where the offset's text starts, given in number of characters since the beginning of the document.</li>
+<li><strong>Length</strong> - The text length of the offset, given in number of characters.</li>
+<li><strong>Height</strong> - (Optional) The height of the offset's text as a percentage of the document image's height. The value can be either <code>null</code> or a positive decimal number.</li>
+<li><strong>Width</strong> - (Optional) The width of the offset's text as a percentage of the document image's width. The value can be either <code>null</code> or a positive decimal number.</li>
+<li><strong>Left</strong> - (Optional) How far from the left edge of the document image the start of the offset's text is as a percentage of the document image's width. The value can be either <code>null</code> or a a non-negative decimal number.</li>
+<li><strong>Top</strong> - (Optional) How far from the top edge of the document image the start of the offset's text is as a percentage of the document image's height. The value can be either <code>null</code> or a non-negative decimal number.</li>
+<li><strong>PageNumber</strong> - (Optional) The page number of the document where the offset's text is found. The value can be either <code>null</code> or a positive integer greater than or equal to 1.</li>
+</ul>
+<div style="background-color: #f0f7fb; border-left: solid 4px #3498db; overflow: hidden; padding: 0.6em; font-size: 1em; line-height: 1.5em; page-break-inside: avoid; color: #666666; font-weight: 400; font-family: proxima-nova, arial, sans-serif;">
+<b>Note:</b> The position and size of an offset's associated text can be defined one of two ways:
+<ol>
+    <li>By providing values for <b>Offset</b> and <b>Length</b>.</li>
+    <li>By providing values for <b>Height</b>, <b>Width</b>, <b>Left</b>, <b>Top</b>, and <b>PageNumber</b>.</li>
+</ol>
+If no value is provided for <b>Length</b>, values must be provided for <b>Height</b>, <b>Width</b>, <b>Left</b>, <b>Top</b>, and <b>PageNumber</b>.
+</div>
+</details>
+<details>
+<summary>View a sample JSON request</summary>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"Offsets"</span>: [
+        {
+            <span class="hljs-attr">"Id"</span>: <span class="hljs-number">12</span>,
+            <span class="hljs-attr">"DocumentId"</span>: <span class="hljs-number">1041445</span>,
+            <span class="hljs-attr">"FieldId"</span>: <span class="hljs-number">1042006</span>,
+            <span class="hljs-attr">"AssociatedArtifactId"</span>: <span class="hljs-number">1041445</span>,
+            <span class="hljs-attr">"ChoiceId"</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">"Offset"</span>: <span class="hljs-number">489</span>,
+            <span class="hljs-attr">"Length"</span>: <span class="hljs-number">211</span>,
+            <span class="hljs-attr">"Height"</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">"Width"</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">"Left"</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">"Top"</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">"PageNumber"</span>: <span class="hljs-literal">null</span>
+        },
+        {
+            <span class="hljs-attr">"Id"</span>: <span class="hljs-number">3</span>,
+            <span class="hljs-attr">"DocumentId"</span>: <span class="hljs-number">1041445</span>,
+            <span class="hljs-attr">"FieldId"</span>: <span class="hljs-number">1042012</span>,
+            <span class="hljs-attr">"AssociatedArtifactId"</span>: <span class="hljs-number">1041445</span>,
+            <span class="hljs-attr">"ChoiceId"</span>: <span class="hljs-number">1042316</span>,
+            <span class="hljs-attr">"Offset"</span>: <span class="hljs-number">14</span>,
+            <span class="hljs-attr">"Length"</span>: <span class="hljs-number">104</span>,
+        }
+    ]
+}
+</div></code></pre>
+</details>
+<details>
+<summary>View field descriptions for a response</summary>
+The body of the response contains an array of objects defining the offsets that were successfully created or updated (see [Upsert Offsets](#upsert-offsets) for more info on why the update endpoint works this way).
+<p>Each offset object in the response contains the following fields (fields marked with * will be omitted from an offset object if their value is <code>null</code>):</p>
+<ul>
+<li><strong>Id</strong> - An ID uniquely identifying the offset.</li>
+<li><strong>DocumentId</strong> - The Artifact ID of the document that the offset is associated with.</li>
+<li><strong>FieldId</strong> - The Artifact ID of the field the offset is associated with.</li>
+<li><strong>AssociatedArtifactId</strong> - If this field does not contain the same value as the <em>DocumentId</em> field, the offset is associated with a multi-object field and its value is the Artifact ID of a selected object. Otherwise, this contains the same value as the <em>DocumentId</em> field.
+<ul>
+<li>For more information on how this field behaves for multi-object fields, see its description in the section above about the request.</li>
+</ul>
+</li>
+<li><strong>ChoiceId</strong>* - The Artifact ID of the choice the offset is associated with. If not set, its value is <code>null</code>.
+<ul>
+<li>This can be used to correlate different offsets that share the same document, field, and choice IDs.</li>
+</ul>
+</li>
+<li><strong>Offset</strong> - The position where the offset's text starts in the document, given in number of characters since the beginning of the document.</li>
+<li><strong>Length</strong> - The text length of the offset, given in number of characters.</li>
+<li><strong>Height</strong>* - The height of the offset's text as a percentage of the document image's height.</li>
+<li><strong>Width</strong>* - The width of the offset's text as a percentage of the document image's width.</li>
+<li><strong>Left</strong>* - How far from the left edge of the document image the start of the offset's text is as a percentage of the document image's width.</li>
+<li><strong>Top</strong>* - How far from the top edge of the document image the start of the offset's text is as a percentage of the document image's height.</li>
+<li><strong>PageNumber</strong>* - The page number of the document where the offset's text is found. Page numbers start at 1.</li>
+</ul>
+</details>
+<details>
+<summary>View a sample JSON response</summary>
+<pre class="hljs"><code><div>[
+    {
+        <span class="hljs-attr">"Id"</span>: <span class="hljs-number">9</span>,
+        <span class="hljs-attr">"DocumentId"</span>: <span class="hljs-number">1041445</span>,
+        <span class="hljs-attr">"FieldId"</span>: <span class="hljs-number">1042006</span>,
+        <span class="hljs-attr">"AssociatedArtifactId"</span>: <span class="hljs-number">1041445</span>,
+        <span class="hljs-attr">"Offset"</span>: <span class="hljs-number">489</span>,
+        <span class="hljs-attr">"Length"</span>: <span class="hljs-number">211</span>
+    },
+    {
+        <span class="hljs-attr">"Id"</span>: <span class="hljs-number">10</span>,
+        <span class="hljs-attr">"DocumentId"</span>: <span class="hljs-number">1041445</span>,
+        <span class="hljs-attr">"FieldId"</span>: <span class="hljs-number">1042006</span>,
+        <span class="hljs-attr">"AssociatedArtifactId"</span>: <span class="hljs-number">1041445</span>,
+        <span class="hljs-attr">"Offset"</span>: <span class="hljs-number">14</span>,
+        <span class="hljs-attr">"Length"</span>: <span class="hljs-number">104</span>
+    }
+]
+</div></code></pre>
+</details>
+<h2 id="delete-an-offset">Delete An Offset</h2>
+<p>To remove an offset from a document, send a DELETE request with a URL in the following format:</p>
+<pre class="hljs"><code><div>&lt;host&gt;/Relativity.Rest/API/contracts/{versionNumber}/offsets/{workspaceId}/document/{documentId}/{offsetId}
+</div></code></pre>
+<p>The <strong>{offsetId}</strong> parameter is the ID of the offset to be deleted. It can be found in the <strong>Id</strong> field of an offset in a read response. See <a href="#read-offsets">Read Offsets</a>.</p>
+<p>Both the request and response bodies are empty. When an offset was successfully deleted, the response returns a status code of 200.</p>
+<h2 id="upsert-offsets">Upsert Offsets</h2>
+<p>The Contracts Offsets Service's create and update operations use the same endpoint, and that endpoint upserts the requested offsets. This allows multiple offsets to upserted in the same request.</p>
+<p>If a requested offset has an Id of <code>0</code> or <code>null</code>, or if the <em>Id</em> field is not included, a new offset will be created.</p>
+<p>If the offset has an <em>Id</em> &gt; <code>0</code>, and the offset with that <em>Id</em> exists, the existing offset is updated to match what was requested.</p>
+<p>The request and response structure are the same as those for the <a href="#create-offsets">Create</a> and <a href="#update-offsets">Update</a> APIs.</p>
+<div style="background-color: #f0f7fb; border-left: solid 4px #3498db; overflow: hidden; padding: 0.6em; font-size: 1em; line-height: 1.5em; page-break-inside: avoid; color: #666666; font-weight: 400; font-family: proxima-nova, arial, sans-serif;">
+<b>IMPORTANT:</b> Use this API at your own risk!
+<br/>
+<br/>
+For any given offset in the request body, if no offset already exists with the specified <i>Id</i>, a new one will be created with an <i>Id</i> value equal to the largest existing offset <i>Id</i>+1, NOT the <i>Id</i> specified. Creating a new offset with a specific <i>Id</i> is not supported.
+<br/>
+<br/>
+It's highly recommended that you check which offsets already exist using the <a href="#read-offsets">Read API</a> before running a large upsert operation.
+</div>
+
+</body>
+</html>
