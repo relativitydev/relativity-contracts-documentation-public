@@ -1,5 +1,5 @@
 # Contracts Offsets Service (REST)
-The Relativity Contracts application uses offset data to link field values to text in a contract document. Offsets can be created through the Contracts Viewer using the Send To Field feature, but they can also be created and managed through the Contracts Offsets Service REST API.
+The Relativity Contracts application uses offset data to link field values to text in a contract document. Offsets can be created through the Contracts Viewer using the Send to Field feature, but they can also be created and managed through the Contracts Offsets Service REST API.
 
 The Contracts Offsets Service exposes CRUD endpoints that you can use to programmatically manipulate offsets in your Relativity environment.
 
