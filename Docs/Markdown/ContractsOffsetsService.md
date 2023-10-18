@@ -20,7 +20,7 @@ For example, you can use the following URL to retrieve the offsets associated wi
 <host>/Relativity.Rest/API/contracts/{versionNumber}/offsets/{workspaceId}/document/{documentId}
 ```
 You'd set the path parameters as follows:
-* **{versionNumber}** to the version of hte API, such as **v1**.
+* **{versionNumber}** to the version of the API, such as **v1**.
 * **{workspaceId}** to the Artifact ID of the Workspace that contains the document.
 * **{documentId}** to the Artifact ID of the document you want to retrieve offsets for.
 
@@ -45,8 +45,8 @@ An offset contains the following fields:
     * **IMPORTANT:** If you are intending to create a new offset, this should NEVER be set to anything other than `0` or `null`. Creating new offsets with specific IDs is not supported, and attempting to do so will result in either an existing offset being updated (if one with the *Id* already exists) or a new offset being created with an *Id* equal to the largest existing offset *Id*+1, NOT the *Id* specified.
 * **DocumentId** - The Artifact ID of the document that the offset should be associated with. This must match the document ID in the URL.
 * **FieldId** - The Artifact ID of the field the offset is associated with.
-* **AssociatedArtifactId** - If the offset is associated with a multi-object field, the Artifact ID of an object to be selected. Otherwise, this should contain the same value as the *DocumentId* field.
-    * To select more than one object, create multiple offsets with the same document ID and field ID, setting the *AssociatedArtifactId* field on each offset to the Artifact ID of the object you want to select.
+* **AssociatedArtifactId**<span id="associated-artifact-id-create-request-description"></span> - If the offset is associated with a multi-object field, the Artifact ID of an object to be selected. Otherwise, this should contain the same value as the *DocumentId* field.
+    * To select more than one object, create multiple offsets with the same document ID and field ID, then set the *AssociatedArtifactId* field on each offset to the Artifact ID of the object you want to select.
 * **ChoiceId** - (Optional) The Artifact ID of a choice to associate the offset with. This can be used to correlate different offsets that share the same document, field, and choice IDs.
 * **Offset** - The position in the document where the offset's text starts, given in number of characters since the beginning of the document.
 * **Length** - The text length of the offset, given in number of characters.
@@ -108,7 +108,7 @@ Each offset object in the response contains the following fields (fields marked 
 * **DocumentId** - The Artifact ID of the document that the offset is associated with.
 * **FieldId** - The Artifact ID of the field the offset is associated with.
 * **AssociatedArtifactId** - If this field does not contain the same value as the *DocumentId* field, the offset is associated with a multi-object field and its value is the Artifact ID of a selected object. Otherwise, this contains the same value as the *DocumentId* field.
-    * For more information on how this field behaves for multi-object fields, see its description in the section above about the request.
+    * For more information on how this field behaves for multi-object fields, see [its description](#associated-artifact-id-create-request-description) in the section above about the create request.
 * **ChoiceId*** - The Artifact ID of the choice the offset is associated with. If not set, its value is `null`.
   * This can be used to correlate different offsets that share the same document, field, and choice IDs.
 * **Offset** - The position where the offset's text starts in the document, given in number of characters since the beginning of the document.
@@ -168,7 +168,7 @@ An offset contains the following fields:
     * **IMPORTANT:** If no offset already exists with the specified *Id*, a new one will be created with an *Id* value equal to the largest existing offset *Id*+1, NOT the *Id* specified. If it's important to your use case that new offsets not be accidentally created this way, it's highly recommended you check which offsets already exist using the [read API](#read-offsets) before attempting to update.
 * **DocumentId** - The Artifact ID of the document that the offset should be associated with. This must match the document ID in the URL.
 * **FieldId** - The Artifact ID of the field the offset is associated with.
-* **AssociatedArtifactId** - If the offset is associated with a multi-object field, the Artifact ID of an object to be selected. Otherwise, this should contain the same value as the *DocumentId* field.
+* **AssociatedArtifactId**<span id="associated-artifact-id-update-request-description"></span> - If the offset is associated with a multi-object field, the Artifact ID of an object to be selected. Otherwise, this should contain the same value as the *DocumentId* field.
     * For more information on how this works, see the request *AssociatedArtifactId* field description for the [Create API](#create-offsets).
 * **ChoiceId** - (Optional) The Artifact ID of a choice to associate the offset with. This can be used to correlate different offsets that share the same document, field, and choice IDs.
 * **Offset** - The position in the document where the offset's text starts, given in number of characters since the beginning of the document.
@@ -232,7 +232,7 @@ Each offset object in the response contains the following fields (fields marked 
 * **DocumentId** - The Artifact ID of the document that the offset is associated with.
 * **FieldId** - The Artifact ID of the field the offset is associated with.
 * **AssociatedArtifactId** - If this field does not contain the same value as the *DocumentId* field, the offset is associated with a multi-object field and its value is the Artifact ID of a selected object. Otherwise, this contains the same value as the *DocumentId* field.
-    * For more information on how this field behaves for multi-object fields, see its description in the section above about the request.
+    * For more information on how this field behaves for multi-object fields, see [its description](#associated-artifact-id-update-request-description) in the section above about the request.
 * **ChoiceId*** - The Artifact ID of the choice the offset is associated with. If not set, its value is `null`.
   * This can be used to correlate different offsets that share the same document, field, and choice IDs.
 * **Offset** - The position where the offset's text starts in the document, given in number of characters since the beginning of the document.

@@ -20,13 +20,13 @@ For example, you can use the following URL to retrieve the hOCR data for a parti
 <host>/Relativity.Rest/API/contracts/{versionNumber}/ocr/{workspaceId}/document/{documentId}/page{pageNumber}
 ```
 You'd set the path parameters as follows:
-* **{versionNumber}** to the version of hte API, such as **v1**.
+* **{versionNumber}** to the version of the API, such as **v1**.
 * **{workspaceId}** to the Artifact ID of the Workspace that contains the document.
 * **{documentId}** to the Artifact ID of the document you want to retrieve hOCR data for.
 * **{pageNumber}** to the page number for the document image page you want to retrieve hOCR data for. Page numbers begin at 1.
 
 <div style="background-color: #f0f7fb; border-left: solid 4px #3498db; overflow: hidden; padding: 0.6em; font-size: 1em; line-height: 1.5em; page-break-inside: avoid; color: #666666; font-weight: 400; font-family: proxima-nova, arial, sans-serif;">
-<b>Note:</b> <b>pageNumber</b> is the page number in the document's <i>image</i>. This distinction is important if you're getting your page numbers from the Contracts Viewer, as the Contracts Text Viewer omits blank pages, while the Contracts Image Viewer does not.
+<b>IMPORTANT:</b> <i>pageNumber</i> is the page number in the document's <b>image</b>. This distinction is important if you're getting your page numbers from the Contracts Viewer, as the Contracts Text Viewer omits blank pages, while the Contracts Image Viewer does not.
 </div>
 
 ## Client Code Example

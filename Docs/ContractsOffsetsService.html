@@ -386,7 +386,7 @@ code {
 </div></code></pre>
 <p>You'd set the path parameters as follows:</p>
 <ul>
-<li><strong>{versionNumber}</strong> to the version of hte API, such as <strong>v1</strong>.</li>
+<li><strong>{versionNumber}</strong> to the version of the API, such as <strong>v1</strong>.</li>
 <li><strong>{workspaceId}</strong> to the Artifact ID of the Workspace that contains the document.</li>
 <li><strong>{documentId}</strong> to the Artifact ID of the document you want to retrieve offsets for.</li>
 </ul>
@@ -409,9 +409,9 @@ code {
 </li>
 <li><strong>DocumentId</strong> - The Artifact ID of the document that the offset should be associated with. This must match the document ID in the URL.</li>
 <li><strong>FieldId</strong> - The Artifact ID of the field the offset is associated with.</li>
-<li><strong>AssociatedArtifactId</strong> - If the offset is associated with a multi-object field, the Artifact ID of an object to be selected. Otherwise, this should contain the same value as the <em>DocumentId</em> field.
+<li><strong>AssociatedArtifactId</strong><span id="associated-artifact-id-create-request-description"></span> - If the offset is associated with a multi-object field, the Artifact ID of an object to be selected. Otherwise, this should contain the same value as the <em>DocumentId</em> field.
 <ul>
-<li>To select more than one object, create multiple offsets with the same document ID and field ID, setting the <em>AssociatedArtifactId</em> field on each offset to the Artifact ID of the object you want to select.</li>
+<li>To select more than one object, create multiple offsets with the same document ID and field ID, then set the <em>AssociatedArtifactId</em> field on each offset to the Artifact ID of the object you want to select.</li>
 </ul>
 </li>
 <li><strong>ChoiceId</strong> - (Optional) The Artifact ID of a choice to associate the offset with. This can be used to correlate different offsets that share the same document, field, and choice IDs.</li>
@@ -471,7 +471,7 @@ If no value is provided for <b>Length</b>, values must be provided for <b>Height
 <li><strong>FieldId</strong> - The Artifact ID of the field the offset is associated with.</li>
 <li><strong>AssociatedArtifactId</strong> - If this field does not contain the same value as the <em>DocumentId</em> field, the offset is associated with a multi-object field and its value is the Artifact ID of a selected object. Otherwise, this contains the same value as the <em>DocumentId</em> field.
 <ul>
-<li>For more information on how this field behaves for multi-object fields, see its description in the section above about the request.</li>
+<li>For more information on how this field behaves for multi-object fields, see <a href="#associated-artifact-id-create-request-description">its description</a> in the section above about the create request.</li>
 </ul>
 </li>
 <li><strong>ChoiceId</strong>* - The Artifact ID of the choice the offset is associated with. If not set, its value is <code>null</code>.
@@ -531,7 +531,7 @@ If no value is provided for <b>Length</b>, values must be provided for <b>Height
 </li>
 <li><strong>DocumentId</strong> - The Artifact ID of the document that the offset should be associated with. This must match the document ID in the URL.</li>
 <li><strong>FieldId</strong> - The Artifact ID of the field the offset is associated with.</li>
-<li><strong>AssociatedArtifactId</strong> - If the offset is associated with a multi-object field, the Artifact ID of an object to be selected. Otherwise, this should contain the same value as the <em>DocumentId</em> field.
+<li><strong>AssociatedArtifactId</strong><span id="associated-artifact-id-update-request-description"></span> - If the offset is associated with a multi-object field, the Artifact ID of an object to be selected. Otherwise, this should contain the same value as the <em>DocumentId</em> field.
 <ul>
 <li>For more information on how this works, see the request <em>AssociatedArtifactId</em> field description for the <a href="#create-offsets">Create API</a>.</li>
 </ul>
@@ -595,7 +595,7 @@ The body of the response contains an array of objects defining the offsets that 
 <li><strong>FieldId</strong> - The Artifact ID of the field the offset is associated with.</li>
 <li><strong>AssociatedArtifactId</strong> - If this field does not contain the same value as the <em>DocumentId</em> field, the offset is associated with a multi-object field and its value is the Artifact ID of a selected object. Otherwise, this contains the same value as the <em>DocumentId</em> field.
 <ul>
-<li>For more information on how this field behaves for multi-object fields, see its description in the section above about the request.</li>
+<li>For more information on how this field behaves for multi-object fields, see <a href="#associated-artifact-id-update-request-description">its description</a> in the section above about the request.</li>
 </ul>
 </li>
 <li><strong>ChoiceId</strong>* - The Artifact ID of the choice the offset is associated with. If not set, its value is <code>null</code>.
