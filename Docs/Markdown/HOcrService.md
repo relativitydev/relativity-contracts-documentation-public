@@ -1,33 +1,29 @@
 # hOCR Service (REST)
 When a Contracts OCR Set is run, the Contracts OCR Agent creates Contracts Image Results objects for every page of every document in the Contracts OCR Set. Those Contracts Image Results objects contain hOCR data describing the content and structure of the text found in the document image via OCR.
 
-<div style="background-color: #f0f7fb; border-left: solid 4px #3498db; overflow: hidden; padding: 0.6em; font-size: 1em; line-height: 1.5em; page-break-inside: avoid; color: #666666; font-weight: 400; font-family: proxima-nova, arial, sans-serif;">
-<b>Note:</b> hOCR is an open data representation standard for formatted text obtained from OCR. You can find the specification for the hOCR microformat <a href="https://kba.github.io/hocr-spec/">here</a>.
-</div>
+<div class="note">hOCR is an open data representation standard for formatted text obtained from OCR. You can find the specification for the hOCR microformat <a href="https://kba.github.io/hocr-spec/">here</a>.</div>
 
 The Contracts hOCR Service exposes an endpoint for reading hOCR data created by the Contracts OCR Agent.
 
 ## Guidelines for the hOCR Service
-What follows are general guidelines for working with this service.
+The following general guidelines apply for working with this service.
 
 ### URLs
 The URLs for the hOCR Service's REST endpoints contain path parameters that you need to set before making a call:
-* Set the **{versionNumber}** placeholder to the version of the REST API that you want to use, using the format of lowercase *v* followed by the *version number* (e.g. *v1* or *v2*).
-* Set the **{workspaceId}** and **{documentId}** path parameters to the Artifact ID of the given entity. For example, you'd set **{workspaceId}** to the Artifact ID of the Workspace.
+* Set the **versionNumber** placeholder to the version of the REST API that you want to use, using the format of lowercase *v* followed by the *version number* (e.g. *v1* or *v2*).
+* Set the **workspaceId** and **documentId** path parameters to the Artifact ID of the given entity. For example, you'd set **workspaceId** to the Artifact ID of the Workspace.
 
 For example, you can use the following URL to retrieve the hOCR data for a particular page of a document:
 ```
 <host>/Relativity.Rest/API/contracts/{versionNumber}/ocr/{workspaceId}/document/{documentId}/page{pageNumber}
 ```
 You'd set the path parameters as follows:
-* **{versionNumber}** to the version of the API, such as **v1**.
-* **{workspaceId}** to the Artifact ID of the Workspace that contains the document.
-* **{documentId}** to the Artifact ID of the document you want to retrieve hOCR data for.
-* **{pageNumber}** to the page number for the document image page you want to retrieve hOCR data for. Page numbers begin at 1.
+* **versionNumber** to the version of the API, such as **v1**.
+* **workspaceId** to the Artifact ID of the Workspace that contains the document.
+* **documentId** to the Artifact ID of the document you want to retrieve hOCR data for.
+* **pageNumber** to the page number for the document image page you want to retrieve hOCR data for. Page numbers begin at 1.
 
-<div style="background-color: #f0f7fb; border-left: solid 4px #3498db; overflow: hidden; padding: 0.6em; font-size: 1em; line-height: 1.5em; page-break-inside: avoid; color: #666666; font-weight: 400; font-family: proxima-nova, arial, sans-serif;">
-<b>IMPORTANT:</b> <i>pageNumber</i> is the page number in the document's <b>image</b>. This distinction is important if you're getting your page numbers from the Contracts Viewer, as the Contracts Text Viewer omits blank pages, while the Contracts Image Viewer does not.
-</div>
+<div class="note"><i>pageNumber</i> is the page number in the document's <b>image</b>. This distinction is important if you're getting your page numbers from the Contracts Viewer, as the Contracts Text Viewer omits blank pages, while the Contracts Image Viewer does not.</div>
 
 ## Client Code Example
 To use the hOCR Service, send requests by making calls with the required HTTP methods.
@@ -40,9 +36,7 @@ To get hOCR data for a document page, send a GET request with a URL in this form
 <host>/Relativity.Rest/API/contracts/{versionNumber}/ocr/{workspaceId}/document/{documentId}/page{pageNumber}
 ```
 
-<details>
-<summary>View field descriptions for a response</summary>
-
+### Response field descriptions
 * **DocumentId** - The Artifact ID of the document the hOCR data is associated with.
 * **PageNumber** - The page number of the page in the document image that the hOCR data represents.
 * **Text** - An array of objects representing the terms found in the document image by Contracts OCR. Each object has the following fields:
@@ -56,11 +50,7 @@ To get hOCR data for a document page, send a GET request with a URL in this form
      * **Width** - The width (in pixels) of the bounding box.
      * **Height** - The height (in pixels) of the bounding box.
 
-</details>
-
-<details>
-<summary>View a sample JSON response</summary>
-
+### Sample JSON response
 ``` json
 {
     "DocumentId": 1041438,
@@ -297,4 +287,3 @@ To get hOCR data for a document page, send a GET request with a URL in this form
     ]
 }
 ```
-</details>
