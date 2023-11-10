@@ -36,6 +36,8 @@ To create one or more offsets, send a POST request with a URL in this format:
 <host>/Relativity.Rest/API/contracts/{versionNumber}/offsets/{workspaceId}/document/{documentId}
 ```
 
+To create an offset on a document, the user making the request must have Object and Item Level permissions to Edit the document.
+
 ### Request field descriptions
 The body of the request must contain an **Offsets** field, which is an array of objects defining the offsets you want to create.
 
@@ -146,6 +148,8 @@ To update one or more offsets, send a POST request with a URL in this format:
 <host>/Relativity.Rest/API/contracts/{versionNumber}/offsets/{workspaceId}/document/{documentId}
 ```
 
+To update an offset on a document, the user making the request must have Object and Item Level permissions to Edit the document.
+
 ### Request field descriptions
 The body of the request must contain an **Offsets** field, which is an array of objects defining the offsets you want to update and the state you want them to be in after the update.
 
@@ -254,6 +258,8 @@ The **offsetId** parameter is the ID of the offset to be deleted. It can be foun
 
 Both the request and response bodies are empty. When an offset was successfully deleted, the response returns a status code of 200.
 
+To delete an offset from a document, the user making the request must have Object and Item Level permissions to Edit the document.
+
 ## Upsert Offsets {#upsert-offsets}
 The Contracts Offsets Service's create and update operations use the same endpoint, and that endpoint upserts the requested offsets. This allows multiple offsets to upserted in the same request.
 
@@ -262,6 +268,8 @@ If a requested offset has an Id of `0` or `null`, or if the *Id* field is not in
 If the offset has an *Id* > `0`, and the offset with that *Id* exists, the existing offset is updated to match what was requested.
 
 The request and response structure are the same as those for the [Create](#create-offsets) and [Update](#update-offsets) APIs.
+
+To upsert an offset on a document, the user making the request must have Object and Item Level permissions to Edit the document.
 
 <div class="note">Use this API at your own risk!
 <br/>
