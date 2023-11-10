@@ -374,32 +374,31 @@ code {
 <li>Extracting reviewer-edited offsets from contracts to train a custom model.</li>
 </ul>
 <h2 id="guidelines-for-the-contracts-offsets-service">Guidelines for the Contracts Offsets Service</h2>
-<p>The following general guidelines apply for working with this service.</p>
+<p>What follows are general guidelines for working with this service.</p>
 <h3 id="urls">URLs</h3>
 <p>The URLs for the Contracts Offsets Service's REST endpoints contain path parameters that you need to set before making a call:</p>
 <ul>
-<li>Set the <strong>versionNumber</strong> placeholder to the version of the REST API that you want to use, using the format of lowercase <em>v</em> followed by the <em>version number</em> (e.g. <em>v1</em> or <em>v2</em>).</li>
-<li>Set the <strong>workspaceId</strong> and <strong>documentId</strong> path parameters to the Artifact ID of the given entity. For example, you'd set <strong>workspaceId</strong> to the Artifact ID of the Workspace.</li>
+<li>Set the <strong>{versionNumber}</strong> placeholder to the version of the REST API that you want to use, using the format of lowercase <em>v</em> followed by the <em>version number</em> (e.g. <em>v1</em> or <em>v2</em>).</li>
+<li>Set the <strong>{workspaceId}</strong> and <strong>{documentId}</strong> path parameters to the Artifact ID of the given entity. For example, you'd set <strong>{workspaceId}</strong> to the Artifact ID of the Workspace.</li>
 </ul>
 <p>For example, you can use the following URL to retrieve the offsets associated with a contract document:</p>
 <pre class="hljs"><code><div>&lt;host&gt;/Relativity.Rest/API/contracts/{versionNumber}/offsets/{workspaceId}/document/{documentId}
 </div></code></pre>
 <p>You'd set the path parameters as follows:</p>
 <ul>
-<li><strong>versionNumber</strong> to the version of the API, such as <strong>v1</strong>.</li>
-<li><strong>workspaceId</strong> to the Artifact ID of the Workspace that contains the document.</li>
-<li><strong>documentId</strong> to the Artifact ID of the document you want to retrieve offsets for.</li>
+<li><strong>{versionNumber}</strong> to the version of the API, such as <strong>v1</strong>.</li>
+<li><strong>{workspaceId}</strong> to the Artifact ID of the Workspace that contains the document.</li>
+<li><strong>{documentId}</strong> to the Artifact ID of the document you want to retrieve offsets for.</li>
 </ul>
 <h2 id="client-code-example">Client Code Example</h2>
 <p>To use the Contracts Offsets Service, send requests by making calls with the required HTTP methods.</p>
 <p>You can download a .NET example project <a href="https://raw.githubusercontent.com/relativitydev/relativity-contracts-documentation-public/main/Examples/OffsetsAndHOcrApis.zip">here</a>.</p>
-<h2 id="create-offsets-create-offsets">Create Offsets {#create-offsets}</h2>
+<h2 id="create-offsets">Create Offsets</h2>
 <p>To create one or more offsets, send a POST request with a URL in this format:</p>
 <pre class="hljs"><code><div>&lt;host&gt;/Relativity.Rest/API/contracts/{versionNumber}/offsets/{workspaceId}/document/{documentId}
-&lt;host&gt;/Relativity.Rest/API/contracts/{versionNumber}/offsets/{workspaceId}/document/{documentId}
 </div></code></pre>
-<p>To create an offset on a document, the user making the request must have Object and Item Level permissions to Edit the document.</p>
-<h3 id="request-field-descriptions">Request field descriptions</h3>
+<details>
+<summary>View field descriptions for a request</summary>
 <p>The body of the request must contain an <strong>Offsets</strong> field, which is an array of objects defining the offsets you want to create.</p>
 <p>An offset contains the following fields:</p>
 <ul>
@@ -424,14 +423,17 @@ code {
 <li><strong>Top</strong> - (Optional) How far from the top edge of the document image the start of the offset's text is as a percentage of the document image's height. The value can be either <code>null</code> or a non-negative decimal number.</li>
 <li><strong>PageNumber</strong> - (Optional) The page number of the document where the offset's text is found. The value can be either <code>null</code> or a positive integer greater than or equal to 1.</li>
 </ul>
-<div class="note">The position and size of an offset's associated text can be defined one of two ways:
+<div style="background-color: #f0f7fb; border-left: solid 4px #3498db; overflow: hidden; padding: 0.6em; font-size: 1em; line-height: 1.5em; page-break-inside: avoid; color: #666666; font-weight: 400; font-family: proxima-nova, arial, sans-serif;">
+<b>Note:</b> The position and size of an offset's associated text can be defined one of two ways:
 <ol>
     <li>By providing values for <b>Offset</b> and <b>Length</b>.</li>
     <li>By providing values for <b>Height</b>, <b>Width</b>, <b>Left</b>, <b>Top</b>, and <b>PageNumber</b>.</li>
 </ol>
 If no value is provided for <b>Length</b>, values must be provided for <b>Height</b>, <b>Width</b>, <b>Left</b>, <b>Top</b>, and <b>PageNumber</b>.
 </div>
-<h3 id="sample-json-request">Sample JSON request</h3>
+</details>
+<details>
+<summary>View a sample JSON request</summary>
 <pre class="hljs"><code><div>{
     <span class="hljs-attr">"Offsets"</span>: [
         {
@@ -458,7 +460,9 @@ If no value is provided for <b>Length</b>, values must be provided for <b>Height
     ]
 }
 </div></code></pre>
-<h3 id="response-field-descriptions">Response field descriptions</h3>
+</details>
+<details>
+<summary>View field descriptions for a response</summary>
 <p>The body of the response contains an array of objects defining the offsets that were successfully created or updated (see <a href="#upsert-offsets">Upsert Offsets</a> for more info on why the create endpoint works this way).</p>
 <p>Each offset object in the response contains the following fields (fields marked with * will be omitted from an offset object if their value is <code>null</code>):</p>
 <ul>
@@ -483,7 +487,9 @@ If no value is provided for <b>Length</b>, values must be provided for <b>Height
 <li><strong>Top</strong>* - How far from the top edge of the document image the start of the offset's text is as a percentage of the document image's height.</li>
 <li><strong>PageNumber</strong>* - The page number of the document where the offset's text is found. Page numbers start at 1.</li>
 </ul>
-<h3 id="sample-json-response">Sample JSON response</h3>
+</details>
+<details>
+<summary>View a sample JSON response</summary>
 <pre class="hljs"><code><div>[
     {
         <span class="hljs-attr">"Id"</span>: <span class="hljs-number">9</span>,
@@ -503,17 +509,18 @@ If no value is provided for <b>Length</b>, values must be provided for <b>Height
     }
 ]
 </div></code></pre>
-<h2 id="read-offsets-read-offsets">Read Offsets {#read-offsets}</h2>
+</details>
+<h2 id="read-offsets">Read Offsets</h2>
 <p>To get the offsets associated with a particular document, send a GET request with a URL in the following format:</p>
 <pre class="hljs"><code><div>&lt;host&gt;/Relativity.Rest/API/contracts/{versionNumber}/offsets/{workspaceId}/document/{documentId}
 </div></code></pre>
 <p>The offset objects in the response for a read operation contain the same fields as those for a create response. See the field descriptions for the response in <a href="#create-offsets">Create Offsets</a>.</p>
-<h2 id="update-offsets-update-offsets">Update Offsets {#update-offsets}</h2>
+<h2 id="update-offsets">Update Offsets</h2>
 <p>To update one or more offsets, send a POST request with a URL in this format:</p>
 <pre class="hljs"><code><div>&lt;host&gt;/Relativity.Rest/API/contracts/{versionNumber}/offsets/{workspaceId}/document/{documentId}
 </div></code></pre>
-<p>To update the offsets on a document, the user making the request must have Object and Item Level permissions to Edit the document.</p>
-<h3 id="request-field-descriptions">Request field descriptions</h3>
+<details>
+<summary>View field descriptions for a request</summary>
 <p>The body of the request must contain an <strong>Offsets</strong> field, which is an array of objects defining the offsets you want to update and the state you want them to be in after the update.</p>
 <p>An offset contains the following fields:</p>
 <ul>
@@ -524,7 +531,7 @@ If no value is provided for <b>Length</b>, values must be provided for <b>Height
 </li>
 <li><strong>DocumentId</strong> - The Artifact ID of the document that the offset should be associated with. This must match the document ID in the URL.</li>
 <li><strong>FieldId</strong> - The Artifact ID of the field the offset is associated with.</li>
-<li><strong>AssociatedArtifactId</strong> {#associated-artifact-id-update-request-description} - If the offset is associated with a multi-object field, the Artifact ID of an object to be selected. Otherwise, this should contain the same value as the <em>DocumentId</em> field.
+<li><strong>AssociatedArtifactId</strong><span id="associated-artifact-id-update-request-description"></span> - If the offset is associated with a multi-object field, the Artifact ID of an object to be selected. Otherwise, this should contain the same value as the <em>DocumentId</em> field.
 <ul>
 <li>For more information on how this works, see the request <em>AssociatedArtifactId</em> field description for the <a href="#create-offsets">Create API</a>.</li>
 </ul>
@@ -538,14 +545,17 @@ If no value is provided for <b>Length</b>, values must be provided for <b>Height
 <li><strong>Top</strong> - (Optional) How far from the top edge of the document image the start of the offset's text is as a percentage of the document image's height. The value can be either <code>null</code> or a non-negative decimal number.</li>
 <li><strong>PageNumber</strong> - (Optional) The page number of the document where the offset's text is found. The value can be either <code>null</code> or a positive integer greater than or equal to 1.</li>
 </ul>
-<div class="note">The position and size of an offset's associated text can be defined one of two ways:
+<div style="background-color: #f0f7fb; border-left: solid 4px #3498db; overflow: hidden; padding: 0.6em; font-size: 1em; line-height: 1.5em; page-break-inside: avoid; color: #666666; font-weight: 400; font-family: proxima-nova, arial, sans-serif;">
+<b>Note:</b> The position and size of an offset's associated text can be defined one of two ways:
 <ol>
     <li>By providing values for <b>Offset</b> and <b>Length</b>.</li>
     <li>By providing values for <b>Height</b>, <b>Width</b>, <b>Left</b>, <b>Top</b>, and <b>PageNumber</b>.</li>
 </ol>
 If no value is provided for <b>Length</b>, values must be provided for <b>Height</b>, <b>Width</b>, <b>Left</b>, <b>Top</b>, and <b>PageNumber</b>.
 </div>
-<h3 id="sample-json-request">Sample JSON Request</h3>
+</details>
+<details>
+<summary>View a sample JSON request</summary>
 <pre class="hljs"><code><div>{
     <span class="hljs-attr">"Offsets"</span>: [
         {
@@ -574,8 +584,10 @@ If no value is provided for <b>Length</b>, values must be provided for <b>Height
     ]
 }
 </div></code></pre>
-<h3 id="response-field-descriptions">Response field descriptions</h3>
-<p>The body of the response contains an array of objects defining the offsets that were successfully created or updated (see <a href="#upsert-offsets">Upsert Offsets</a> for more info on why the update endpoint works this way).</p>
+</details>
+<details>
+<summary>View field descriptions for a response</summary>
+The body of the response contains an array of objects defining the offsets that were successfully created or updated (see [Upsert Offsets](#upsert-offsets) for more info on why the update endpoint works this way).
 <p>Each offset object in the response contains the following fields (fields marked with * will be omitted from an offset object if their value is <code>null</code>):</p>
 <ul>
 <li><strong>Id</strong> - An ID uniquely identifying the offset.</li>
@@ -599,7 +611,9 @@ If no value is provided for <b>Length</b>, values must be provided for <b>Height
 <li><strong>Top</strong>* - How far from the top edge of the document image the start of the offset's text is as a percentage of the document image's height.</li>
 <li><strong>PageNumber</strong>* - The page number of the document where the offset's text is found. Page numbers start at 1.</li>
 </ul>
-<h3 id="sample-json-response">Sample JSON Response</h3>
+</details>
+<details>
+<summary>View a sample JSON response</summary>
 <pre class="hljs"><code><div>[
     {
         <span class="hljs-attr">"Id"</span>: <span class="hljs-number">9</span>,
@@ -619,25 +633,27 @@ If no value is provided for <b>Length</b>, values must be provided for <b>Height
     }
 ]
 </div></code></pre>
+</details>
 <h2 id="delete-an-offset">Delete An Offset</h2>
 <p>To remove an offset from a document, send a DELETE request with a URL in the following format:</p>
 <pre class="hljs"><code><div>&lt;host&gt;/Relativity.Rest/API/contracts/{versionNumber}/offsets/{workspaceId}/document/{documentId}/{offsetId}
 </div></code></pre>
-<p>The <strong>offsetId</strong> parameter is the ID of the offset to be deleted. It can be found in the <strong>Id</strong> field of an offset in a read response. See <a href="#read-offsets">Read Offsets</a>.</p>
+<p>The <strong>{offsetId}</strong> parameter is the ID of the offset to be deleted. It can be found in the <strong>Id</strong> field of an offset in a read response. See <a href="#read-offsets">Read Offsets</a>.</p>
 <p>Both the request and response bodies are empty. When an offset was successfully deleted, the response returns a status code of 200.</p>
-<p>To delete an offset on a document, the user making the request must have Object and Item Level permissions to Edit the document.</p>
-<h2 id="upsert-offsets-upsert-offsets">Upsert Offsets {#upsert-offsets}</h2>
+<h2 id="upsert-offsets">Upsert Offsets</h2>
 <p>The Contracts Offsets Service's create and update operations use the same endpoint, and that endpoint upserts the requested offsets. This allows multiple offsets to upserted in the same request.</p>
 <p>If a requested offset has an Id of <code>0</code> or <code>null</code>, or if the <em>Id</em> field is not included, a new offset will be created.</p>
 <p>If the offset has an <em>Id</em> &gt; <code>0</code>, and the offset with that <em>Id</em> exists, the existing offset is updated to match what was requested.</p>
 <p>The request and response structure are the same as those for the <a href="#create-offsets">Create</a> and <a href="#update-offsets">Update</a> APIs.</p>
-<p>To upsert an offset on a document, the user making the request must have Object and Item Level permissions to Edit the document.</p>
-<div class="note">Use this API at your own risk!
+<div style="background-color: #f0f7fb; border-left: solid 4px #3498db; overflow: hidden; padding: 0.6em; font-size: 1em; line-height: 1.5em; page-break-inside: avoid; color: #666666; font-weight: 400; font-family: proxima-nova, arial, sans-serif;">
+<b>IMPORTANT:</b> Use this API at your own risk!
+<br/>
 <br/>
 For any given offset in the request body, if no offset already exists with the specified <i>Id</i>, a new one will be created with an <i>Id</i> value equal to the largest existing offset <i>Id</i>+1, NOT the <i>Id</i> specified. Creating a new offset with a specific <i>Id</i> is not supported.
 <br/>
 <br/>
-It is highly recommended that you check which offsets already exist using the <a href="#read-offsets">Read API</a> before running a large upsert operation.
+It's highly recommended that you check which offsets already exist using the <a href="#read-offsets">Read API</a> before running a large upsert operation.
 </div>
+
 </body>
 </html>
